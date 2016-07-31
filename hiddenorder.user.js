@@ -9,8 +9,8 @@
 // ==/UserScript==
 
 var order_numbers = [
-    "206-4177633-0354749",
-    "206-5782648-9286750"
+    "xxx-yyyyyyy-zzzzzzz",
+    "aaa-bbbbbbb-ccccccc"
 ];
 
 try {
