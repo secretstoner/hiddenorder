@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         The Hidden Order
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/secretstoner/hiddenorder
 // @version      0.1
 // @description  Make Amazon orders invisible on the page
 // @author       You
