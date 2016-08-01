@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         The Hidden Order
 // @namespace    https://github.com/secretstoner/hiddenorder
-// @version      0.3
+// @version      0.4
 // @description  Make Amazon orders invisible on the page
 // @author       You
 // @include      http*://*.amazon.co.uk/*
@@ -34,10 +34,11 @@ function doc_keyDown(e) {
 }
 function get_orders() {
     order_numbers = GM_getValue('amazon',[]);
-    console.log (order_numbers);
 }
 
 try {
+    var ts_start = Date.now();
+    
     document.addEventListener('keyup', doc_keyUp, false);
     document.addEventListener('keydown', doc_keyDown, false);
     get_orders();
@@ -48,7 +49,6 @@ try {
 
     var spans = document.getElementsByTagName('span');
     var order_count = 0, orders_hidden = 0;
-    var order_text;
 
     for (var x = 0; x < spans.length; x++) {
         if (spans[x].innerHTML.match(/^\s*\d+-\d+-\d+\s*$/)) {
@@ -57,16 +57,19 @@ try {
             if (order_numbers.indexOf(order_number) > -1) {
                 spans[x].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.style.display = 'none';
                 orders_hidden++;
-            } else if (spans[x].innerHTML.match(/\d+ hidden orders/)) {
-                order_text = spans[x];
             }
         }
     }
-    /*
-TODO: https://github.com/secretstoner/hiddenorder/issues/2
-    order_text.innerHTML = (order_count - orders_hidden) + ' hidden orders';
-*/
-    console.log (order_count + ' orders found; ' + orders_hidden + ' orders hidden');
+    
+    var order_text = document.getElementsByClassName('num-orders');
+    if (order_text.length == 1) {
+        order_text[0].innerHTML = (order_count - orders_hidden) + ' hidden orders';
+    } else {
+        console.log ('AOH Error (order_text): ' + e);
+        console.log (order_text);
+    }
+    
+    console.log ('THO: ' + order_count + ' found; ' + orders_hidden + ' hidden; in ' + (Date.now() - ts_start) + 'ms');
 } catch (e) {
     console.log ('AOH Error: ' + e);
 }
